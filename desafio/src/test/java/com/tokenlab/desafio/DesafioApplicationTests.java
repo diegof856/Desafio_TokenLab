@@ -1,10 +1,10 @@
-package com.TokenLab.desafio;
+package com.tokenlab.desafio;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CalendarioEventosApplicationTests {
+class DesafioApplicationTests {
 
 	@Test
 	void contextLoads() {

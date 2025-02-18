@@ -1,13 +1,13 @@
-package com.TokenLab.desafio;
+package com.tokenlab.desafio;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CalendarioEventosApplication {
+public class DesafioApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CalendarioEventosApplication.class, args);
+		SpringApplication.run(DesafioApplication.class, args);
 	}
 
 }
