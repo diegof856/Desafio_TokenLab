@@ -1,0 +1,74 @@
+.login{
+    display: flex;
+    align-items: center;
+
+}
+.h1_login{
+    text-align: center;
+   margin-bottom: .5em;
+  
+}
+body{
+    background: white;
+}
+img{
+    height: 100vh;
+}
+.div_login_intermediaria{
+    width: 25em;
+    color: #159A9C;
+}
+.form_login span,input{
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+   
+}
+span{
+    margin-bottom: .25em;
+    font-size: 2em;
+}
+input{
+    margin-bottom: 2em;
+   padding: 1.5em;
+   border-radius: .50em;
+   border-color: #159A9C;
+   background-color: white;
+   stroke: #159A9C;
+   color: #002333;
+
+}
+.btn_esqueceu_senha{
+    color: #159A9C;
+    text-decoration: none;
+    font-size: 0.9em; /* Reduz o tamanho da fonte para um visual mais discreto */
+   
+
+}
+.btn_login{
+    margin-top: .75em;
+    background: #159A9C;
+    border-radius: 1.4em;
+    border: none;
+   font-size: 2em;
+   padding: .25em .10em;
+   color: white;
+  margin-bottom: 1em;
+   
+}
+.container_login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vh;
+    height: 100vh;
+}
+
+.btn_cadastro {
+    color: #159A9C;
+    text-decoration: none;
+}
+.btn_texto{
+    text-align: center;
+    color: #002333;
+}
