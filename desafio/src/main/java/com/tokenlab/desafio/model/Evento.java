@@ -33,7 +33,8 @@ public class Evento implements Serializable {
 
 	@NotNull
 	private String descricao;
-
+	@NotNull
+	private String nomeEvento;
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "idUsuario", nullable = false)
@@ -43,11 +44,12 @@ public class Evento implements Serializable {
 
 	}
 
-	public Evento(Long idEvento, Instant horaInicio, Instant horaTermino, String descricao) {
+	public Evento(Long idEvento, Instant horaInicio, Instant horaTermino, String descricao, String nomeEvento) {
 		this.idEvento = idEvento;
 		this.horaInicio = horaInicio;
 		this.horaTermino = horaTermino;
 		this.descricao = descricao;
+		this.nomeEvento = nomeEvento;
 	}
 
 	public Long getIdEvento() {
@@ -80,6 +82,14 @@ public class Evento implements Serializable {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	
+	public String getNomeEvento() {
+		return nomeEvento;
+	}
+
+	public void setNomeEvento(String nomeEvento) {
+		this.nomeEvento = nomeEvento;
 	}
 
 	public Usuario getUsuario() {

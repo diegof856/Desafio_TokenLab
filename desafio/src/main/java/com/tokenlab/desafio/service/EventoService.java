@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.tokenlab.desafio.dto.EventoRequestDTO;
 import com.tokenlab.desafio.dto.EventoResponseDTO;
+import com.tokenlab.desafio.exceptions.EventoNaoEncontradoException;
 import com.tokenlab.desafio.model.Evento;
 import com.tokenlab.desafio.repositories.EventoRepository;
 import com.tokenlab.desafio.utils.Utils;
@@ -48,7 +49,7 @@ public class EventoService {
 	}
 
 	private Evento buscarEventoPorId(Long id) {
-		return eventoRepository.findById(id).orElseThrow(() -> new RuntimeException("Evento não encontrado!!!"));
+		return eventoRepository.findById(id).orElseThrow(() -> new EventoNaoEncontradoException());
 	}
 
 }

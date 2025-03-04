@@ -1,11 +1,15 @@
 package com.tokenlab.desafio.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.tokenlab.desafio.dto.EventoResponseDTO;
 import com.tokenlab.desafio.dto.UsuarioRequestDTO;
 import com.tokenlab.desafio.dto.UsuarioResponseDTO;
+import com.tokenlab.desafio.exceptions.EmailJaCadastradoException;
+import com.tokenlab.desafio.exceptions.SenhaIncorretaException;
+import com.tokenlab.desafio.exceptions.UsuarioNaoEncontradoException;
 import com.tokenlab.desafio.model.Evento;
 import com.tokenlab.desafio.model.Usuario;
 import com.tokenlab.desafio.repositories.UsuarioRepository;
@@ -23,8 +27,11 @@ public class UsuarioService {
 	public void criarUsuario(UsuarioRequestDTO usuarioRequestDTO) {
 		Usuario usuario = new Usuario(usuarioRequestDTO.getNome(), usuarioRequestDTO.getEmail(),
 				usuarioRequestDTO.getSenha());
-
-		this.usuarioRepository.save(usuario);
+		try {
+		    usuarioRepository.save(usuario);
+		} catch (DataIntegrityViolationException e) {
+		    throw new EmailJaCadastradoException();
+		}
 	}
 
 	public void atualizarSenha(String senha, Long id) {
@@ -46,17 +53,19 @@ public class UsuarioService {
    }
 
 	public UsuarioResponseDTO fazerLogin(String email, String senha) {
-		Usuario usuario = buscarUsuarioEmail(email);
-		if (usuario.getSenha().equals(senha)) {
-			return new UsuarioResponseDTO(usuario.getIdUsuario(),usuario.getNome());
-		} else {
-			throw new IllegalArgumentException("A senha não corresponde ao usuário!!!");
-		}
+	    Usuario usuario = buscarUsuarioEmail(email);
+	    
+	    if (!usuario.getSenha().equals(senha)) {
+	        throw new SenhaIncorretaException("A senha não corresponde ao usuário.");
+	    }
+	    
+	    return new UsuarioResponseDTO(usuario.getIdUsuario(), usuario.getNome());
 	}
 
 	private Usuario buscarUsuarioEmail(String email) {
-		return usuarioRepository.findByEmail(email)
-				.orElseThrow(() -> new RuntimeException("Usuario não encontrado!!!"));
+			return usuarioRepository.findByEmail(email)
+			.orElseThrow(() -> new UsuarioNaoEncontradoException());
+		
 	}
 	private EventoResponseDTO transformarEvento(Evento evento) {
 		return new EventoResponseDTO(evento.getIdEvento(), evento.getHoraInicio(), evento.getHoraTermino(), evento.getDescricao());
