@@ -31,7 +31,7 @@ public class EventoService {
 	}
 
 	private EventoResponseDTO getEventoResponse(Evento evento) {
-		return new EventoResponseDTO(evento.getIdEvento(),evento.getHoraInicio(), evento.getHoraTermino(), evento.getDescricao());
+		return new EventoResponseDTO(evento.getIdEvento(),evento.getHoraInicio(), evento.getHoraTermino(), evento.getDescricao(), evento.getNomeEvento());
 
 	}
 

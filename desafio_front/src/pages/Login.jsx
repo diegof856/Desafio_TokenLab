@@ -1,14 +1,12 @@
 import './Login.css'
 import { Link } from 'react-router-dom';
 import { useFetch } from '../hooks/useFetch';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 const url = "http://localhost:8080/v1/usuarios/login"
 const Login = () => {
     const[email, setEmail] = useState("")
     const[senha, setSenha] = useState("")
-    const[id, setId] = useState("")
-    const[nome, setNome] = useState("")
-    const {httpConfig } = useFetch(url)
+    const {httpConfig, loading } = useFetch(url)
     
     const handleSubmit = async (e) =>{
         e.preventDefault();
@@ -22,9 +20,8 @@ const Login = () => {
         setEmail("");
         setSenha("");
         if (response) {
-            setId(response.id);
-            setNome(response.nome);
-            alert("Login bem-sucedido: " + response.nome +", infelizmente não deu tempo de implementar o restante");
+         
+            alert("Login bem-sucedido: " + response.nome+", infelizmente não deu tempo de implementar o restante");
             
         }
     }
@@ -49,7 +46,8 @@ const Login = () => {
                             <input type="password" value={senha} name="senha"  placeholder="Digite a sua senha" onChange={(e) => setSenha(e.target.value)}/>
                         </label>
                         <div><a href="" className='btn_esqueceu_senha'>Esqueceu a senha</a></div>
-                        <input type="submit" value='Login' className='btn_login' />
+                        {loading && <input type="submit" disabled value='Aguarde' className='btn_login' />}
+                        {!loading && <input type="submit" value='Login' className='btn_login' />}
                         <div className='btn_texto'> <p>Ainda não Possui uma Conta ? <Link to="/v1/usuarios" className='btn_cadastro'>Cadastre-se</Link></p>
                         </div>
                     </form>

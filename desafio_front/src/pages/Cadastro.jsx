@@ -1,35 +1,50 @@
-import { Link, useNavigate  } from 'react-router-dom';
-import "./Login.css"
-import "./Cadastro.css"
+import { Link, useNavigate } from 'react-router-dom';
+import "./Login.css";
+import "./Cadastro.css";
 import { useState } from 'react';
 
-const url = "http://localhost:8080/v1/usuarios"
+const url = "http://localhost:8080/v1/usuarios";
 const Cadastro = () => {
-
-    const [nome, setNome] = useState("")
-    const [email, setEmail] = useState("")
-    const [senha, setSenha] = useState("")
+    const [nome, setNome] = useState("");
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const usuarioRequestDTO = {
-            nome,
-            email,
-            senha
-        };
-       
-       const res = await fetch(url,{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify(usuarioRequestDTO),
-       });
-       navigate("/v1/usuarios/login");
-       
-    };
-    
+        setErrorMessage("");
+        try {
+            const usuarioRequestDTO = {
+                nome,
+                email,
+                senha,
+            };
 
+            const res = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(usuarioRequestDTO),
+            });
+
+            if (!res.ok) {
+                const errorData = await res.json();
+                if (errorData && errorData.mensagem) {
+                    setErrorMessage(errorData.mensagem);
+                }
+                setNome("")
+                setEmail("")
+                setSenha("")
+                return;
+            }
+
+            navigate("/v1/usuarios/login");
+        } catch (error) {
+            setErrorMessage("Erro de conexão com o servidor.");
+        }
+    };
 
     return (
         <div className="login">
@@ -53,13 +68,14 @@ const Cadastro = () => {
                         </label>
                         <div><a href="" className='btn_esqueceu_senha'>Esqueceu a senha</a></div>
                         <input type="submit" value='Cadastre-se' className='btn_login btn_font' />
+                        {errorMessage && <p className="error-message">{errorMessage}</p>}
                         <div className='btn_texto'> <p>Já possou conta ? <Link to="/v1/usuarios/login" className='btn_cadastro'>Faça o login</Link></p>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
+
 export default Cadastro;

@@ -68,7 +68,7 @@ public class UsuarioService {
 		
 	}
 	private EventoResponseDTO transformarEvento(Evento evento) {
-		return new EventoResponseDTO(evento.getIdEvento(), evento.getHoraInicio(), evento.getHoraTermino(), evento.getDescricao());
+		return new EventoResponseDTO(evento.getIdEvento(), evento.getHoraInicio(), evento.getHoraTermino(), evento.getDescricao(), evento.getNomeEvento());
 	}
 	
 }
