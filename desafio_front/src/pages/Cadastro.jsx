@@ -31,18 +31,17 @@ const Cadastro = () => {
 
             if (!res.ok) {
                 const errorData = await res.json();
-                if (errorData && errorData.mensagem) {
-                    setErrorMessage(errorData.mensagem);
-                }
                 setNome("")
                 setEmail("")
                 setSenha("")
-                return;
+                throw new Error(errorData.mensagem);
             }
-
-            navigate("/v1/usuarios/login");
+            setNome("")
+            setEmail("")
+            setSenha("")
+            navigate("/");
         } catch (error) {
-            setErrorMessage("Erro de conexão com o servidor.");
+            setErrorMessage(error.message);
         }
     };
 
@@ -56,7 +55,7 @@ const Cadastro = () => {
                     <form className='form_login' onSubmit={handleSubmit}>
                         <label >
                             <span>Nome</span>
-                            <input type="text" value={nome} name="nome" onChange={(e) => setNome(e.target.value)} placeholder="Digite o seu nome" />
+                            <input type="text" value={nome} name="nome" onChange={(e) => setNome(e.target.value)} placeholder="Digite o seu nome" maxLength={30}/>
                         </label>
                         <label >
                             <span>E-mail</span>
@@ -66,10 +65,9 @@ const Cadastro = () => {
                             <span>Senha</span>
                             <input type="password" value={senha} name="senha" onChange={(e) => setSenha(e.target.value)} placeholder="Digite a sua senha" />
                         </label>
-                        <div><a href="" className='btn_esqueceu_senha'>Esqueceu a senha</a></div>
                         <input type="submit" value='Cadastre-se' className='btn_login btn_font' />
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
-                        <div className='btn_texto'> <p>Já possou conta ? <Link to="/v1/usuarios/login" className='btn_cadastro'>Faça o login</Link></p>
+                        <div className='btn_texto'> <p>Já possui conta ? <Link to="/" className='btn_cadastro'>Faça o login</Link></p>
                         </div>
                     </form>
                 </div>

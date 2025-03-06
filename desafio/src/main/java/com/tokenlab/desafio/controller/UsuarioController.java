@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tokenlab.desafio.dto.LoginRequestDTO;
+import com.tokenlab.desafio.dto.NovaSenhaDTO;
 import com.tokenlab.desafio.dto.UsuarioRequestDTO;
 import com.tokenlab.desafio.dto.UsuarioResponseDTO;
 import com.tokenlab.desafio.service.UsuarioService;
@@ -37,9 +37,9 @@ public class UsuarioController {
 		return ResponseEntity.ok(this.usuarioService.buscarEventos(id)) ;
 	}
 	
-	@PatchMapping("/{id}")
-    public ResponseEntity<Void> atualizarUsuario(@PathVariable Long id, @RequestParam(name = "senha") String senha){
-		this.usuarioService.atualizarSenha(senha, id);
+	@PatchMapping("/{email}")
+    public ResponseEntity<Void> atualizarUsuario(@PathVariable String email, @RequestBody NovaSenhaDTO novaSenha){
+		this.usuarioService.atualizarSenha(novaSenha.getSenha(), email);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 	@DeleteMapping("/{id}")

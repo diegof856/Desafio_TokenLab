@@ -41,8 +41,9 @@ input{
 .btn_esqueceu_senha{
     color: #159A9C;
     text-decoration: none;
-    font-size: 0.9em; /* Reduz o tamanho da fonte para um visual mais discreto */
-   
+    font-size: 0.9em; 
+   background-color: transparent;
+   border: none;
 
 }
 .btn_login{

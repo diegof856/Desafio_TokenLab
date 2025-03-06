@@ -34,8 +34,8 @@ public class UsuarioService {
 		}
 	}
 
-	public void atualizarSenha(String senha, Long id) {
-		Usuario usuario = utils.buscarUsuarioId(id);
+	public void atualizarSenha(String senha, String email) {
+		Usuario usuario = buscarUsuarioEmail(email);
 		usuario.setSenha(senha);
 		usuarioRepository.save(usuario);
 	}
