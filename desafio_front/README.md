@@ -417,6 +417,200 @@ Este componente exibe uma mensagem para o usuário caso ele ainda não tenha eve
    - Quando o ícone é clicado, a função `onMarcarEvento` é chamada, permitindo ao usuário iniciar o processo de marcação de um evento.
 
 
+# `ComponentEventos`
+
+O objetivo deste componente é exibir uma lista de eventos e fornecer botões para editar ou excluir um evento.
+
+## Estrutura do Código
+
+### Importações
+```js
+import "./Components_Styles.css";
+import ComponentEditarEvento from "./ComponentEditarEvento";
+import ComponentDeletarEvento from "./ComponentDeletarEvento";
+import { useState } from 'react';
+```
+- O arquivo de estilos `Components_Styles.css` é importado para a estilização do componente.
+- Os componentes `ComponentEditarEvento` e `ComponentDeletarEvento` são importados para realizar operações de edição e exclusão de eventos, respectivamente.
+- O `useState` é importado de React para gerenciar o estado local do componente.
+
+### Declaração do Componente Principal
+```js
+const ComponentEventos = ({ eventos }) => {
+    const [modalEditar, setModalEditar] = useState(false);
+    const [modalDeletar, setModalDeletar] = useState(false);
+```
+- O componente `ComponentEventos` recebe uma prop `eventos`, que é uma lista de eventos a ser exibida.
+- O `useState` é usado para controlar o estado de dois modais (`modalEditar` e `modalDeletar`) para editar ou excluir um evento.
+
+### Renderização da Lista de Eventos
+```js
+<section className="container_Eventos">
+    {eventos &&
+        eventos.map((evento) => (
+            <ul key={evento.idEvento}>
+                <li>{evento.nomeEvento}</li>
+                <li>{evento.horaInicio}</li>
+                <li>{evento.horaTermino}</li>
+                <li>{evento.descricao}</li>
+                <div className="btns_edit_cancel">
+                    <button className="btn_ev btn_edit" onClick={() => setModalEditar(evento.idEvento)}>Editar</button>
+                    <button className="btn_ev btn_cancel" onClick={() => setModalDeletar(evento.idEvento)}>Cancelar</button>
+                </div>
+            </ul>
+        ))}
+```
+- Dentro da tag `<section>`, o componente mapeia os eventos passados como prop e os exibe em uma lista não ordenada (`<ul>`).
+- Para cada evento, são exibidos os dados: `nomeEvento`, `horaInicio`, `horaTermino` e `descricao`.
+- Dois botões são renderizados:
+  - **Editar**: Abre o modal de edição ao chamar `setModalEditar` passando o `idEvento`.
+  - **Cancelar**: Abre o modal de exclusão ao chamar `setModalDeletar` passando o `idEvento`.
+
+### Exibição dos Modais de Edição e Exclusão
+```js
+{modalEditar && <ComponentEditarEvento id={modalEditar} fechar={() => setModalEditar(null)}/>}
+{modalDeletar && <ComponentDeletarEvento id={modalDeletar} fechar={() => setModalDeletar(null)}/>}
+```
+- Se o estado `modalEditar` estiver `true`, o componente `ComponentEditarEvento` é renderizado com a prop `id` igual ao `idEvento` do evento a ser editado.
+- Se o estado `modalDeletar` estiver `true`, o componente `ComponentDeletarEvento` é renderizado com a prop `id` igual ao `idEvento` do evento a ser excluído.
+- Ambos os componentes de modal possuem a função `fechar` que atualiza o estado para `null`, fechando o modal.
+
+
+# `ComponentEditarEvento`
+
+Permite editar as informações de um evento. Ele utiliza hooks do React para controlar o estado dos dados do formulário e também realiza uma requisição HTTP para atualizar o evento no backend.
+
+## Estrutura do código
+
+### Importações
+
+```javascript
+import "./Components_Styles.css";  
+import { useState } from 'react';  
+import { useFetch } from '../hooks/useFetch';  
+```
+
+- O `useState` é usado para gerenciar o estado dos valores de cada campo no formulário (nome, horário de início, horário de término e descrição do evento).
+- O `useFetch` é um hook customizado para facilitar a realização de requisições HTTP, retornando configurações de requisição e controle de erros.
+
+### Componente `ComponentEditarEvento`
+
+```javascript
+const ComponentEditarEvento = ({ id, fechar }) => {
+    const [novoNomeEvento, setNovoNomeEvento] = useState("");  
+    const [novaHoraInicioEvento, setNovaHoraInicioEvento] = useState("");  
+    const [novaHoraTerminoEvento, setNovaHoraTerminoEvento] = useState("");  
+    const [novaDescricaoEvento, setNovaDescricaoEvento] = useState("");  
+
+    const { httpConfig, loading, errorMessage } = useFetch();  /
+    const url = `http://localhost:8080/v1/eventos/${id}`;  
+```
+- O componente `ComponentEditarEvento` recebe dois props: `id`, que é o identificador do evento a ser editado, e `fechar`, uma função que pode ser chamada para fechar o modal.
+- O estado de cada campo é controlado usando o `useState`, que armazena o valor do nome, hora de início, hora de término e descrição.
+- O `useFetch` é usado para realizar a requisição PUT para atualizar o evento no backend.
+
+### Função `handleOutsideClick`
+
+```javascript
+const handleOutsideClick = (e) => {
+    if (e.target.classList.contains('modal_overlay')) {
+        fechar();  
+    }
+};
+```
+
+- Essa função fecha o modal quando o usuário clica fora da área principal, verificando se o clique foi feito no overlay (`modal_overlay`).
+
+### Função `handleSubmitEdit`
+
+```javascript
+const handleSubmitEdit = (e) => {
+    e.preventDefault();  
+    const atualizarEvento = {
+        nomeEvento: novoNomeEvento,
+        horaInicio: novaHoraInicioEvento,
+        horaTermino: novaHoraTerminoEvento,
+        descricao: novaDescricaoEvento,
+    };
+    
+    const response = httpConfig(atualizarEvento, "PUT", url); 
+    if (response) {
+        setNovaDescricaoEvento("");  
+        setNovaHoraInicioEvento("");  
+        setNovaHoraTerminoEvento("");  
+        setNovoNomeEvento("");  
+    }
+};
+```
+
+- A função `handleSubmitEdit` é chamada quando o formulário é enviado. Ela envia os dados atualizados do evento (nome, hora de início, hora de término e descrição) para o servidor usando a requisição PUT.
+- Caso a requisição seja bem-sucedida, os campos do formulário são limpos.
+
+### Estrutura JSX
+
+```javascript
+return (
+    <div className="modal_overlay" onClick={handleOutsideClick}>
+        <form className="editar_evento_from" onSubmit={handleSubmitEdit} onClick={(e) => e.stopPropagation()}>
+            <label>
+                <span>Digite o novo nome do evento</span>
+                <input type="text" value={novoNomeEvento} onChange={(e) => setNovoNomeEvento(e.target.value)} />
+            </label>
+            <label>
+                <span>Digite o novo horario de inicio do evento</span>
+                <input type="time" value={novaHoraInicioEvento} onChange={(e) => setNovaHoraInicioEvento(e.target.value)} />
+            </label>
+            <label>
+                <span>Digite o novo horario de termino do evento</span>
+                <input type="time" value={novaHoraTerminoEvento} onChange={(e) => setNovaHoraTerminoEvento(e.target.value)} />
+            </label>
+            <label>
+                <span>Faça uma nova breve descrição do que é o evento</span>
+                <textarea rows={4} cols={50} value={novaDescricaoEvento} onChange={(e) => setNovaDescricaoEvento(e.target.value)} />
+            </label>
+            {loading && <input className="btn" type="submit" value="Aguarde" />}  // Exibe o botão de "Aguarde" enquanto carrega
+            {!loading && <input className="btn btn_color" type="submit" value="Salvar" />}  // Exibe o botão "Salvar" quando não estiver carregando
+            {errorMessage && <p className="erro_mensagem">{errorMessage}</p>}  // Exibe a mensagem de erro caso haja algum problema na requisição
+        </form>
+    </div>
+);
+```
+
+- O JSX renderiza um formulário com campos para editar o nome, hora de início, hora de término e descrição do evento.
+- Ele também exibe um botão de "Aguarde" enquanto a requisição está carregando e um botão de "Salvar" quando a requisição não está em andamento.
+- Se houver uma mensagem de erro, ela é exibida abaixo do formulário.
+
+# ComponentDeletarEvento - Explicação
+
+Este componente React serve para exibir um modal de confirmação para excluir um evento. Abaixo, segue uma explicação detalhada sobre o funcionamento do código:
+
+## Estrutura do Componente
+
+- **useFetch:** 
+    - É um hook customizado para lidar com requisições HTTP. O componente utiliza `httpConfig` para enviar a requisição de exclusão de um evento e também para verificar o estado de carregamento e mensagens de erro.
+    - O hook `useFetch` contém três propriedades: `httpConfig`, `loading` e `errorMessage`.
+
+- **Props:** 
+    - **id**: ID do evento a ser excluído.
+    - **fechar**: Função passada por props que é chamada para fechar o modal.
+
+## Fluxo de Funções
+
+1. **handleOutsideClick:**
+    - Esta função lida com o clique fora do modal. Se o usuário clicar fora da área do modal (na camada de fundo), o modal será fechado chamando a função `fechar`.
+
+2. **handleCancelDeletar:**
+    - Caso o usuário clique no botão "Não", o modal será fechado chamando a função `fechar`.
+
+3. **handleDeletarEvento:**
+    - Esta função envia a requisição para excluir o evento. A requisição é feita com o método HTTP `DELETE` para o endpoint que corresponde ao evento com o `id` fornecido.
+    - Após a exclusão, o modal é fechado com a função `fechar`.
+
+## Estrutura do JSX
+
+- O componente retorna um JSX que contém a estrutura do modal, com duas opções para o usuário: **Sim** (para confirmar a exclusão) e **Não** (para cancelar a exclusão).
+- O modal também lida com cliques fora da área do modal para fechá-lo.
+
 
 # Hook Personalizado `useFetch`
 
