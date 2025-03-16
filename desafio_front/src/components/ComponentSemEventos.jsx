@@ -1,6 +1,6 @@
 import "./Components_Styles.css"
 
-const ComponentSection = ({ onMarcarEvento }) => {
+const ComponentSemEvento = ({ onMarcarEvento }) => {
  
    
     return (
@@ -21,4 +21,4 @@ const ComponentSection = ({ onMarcarEvento }) => {
 );
     
 }
-export default ComponentSection;
+export default ComponentSemEvento;
