@@ -26,7 +26,7 @@ const Login = () => {
 
         if (response) {
            
-            navigate(`/${response.idUsuario}/home`)
+            navigate(`/home/${response.idUsuario}`)
            
 
         }
@@ -36,10 +36,10 @@ const Login = () => {
 
     return (
 
-        <div className={`login ${mostrarModal ? "blur-background" : ""}`}>
-
+        <div className="login">
+  <div className="container_login">
             <img src="/login_cadastro_img.jpg" alt="imagem ao lado do login" />
-            <div className="container_login">
+          
                 <div className='div_login_intermediaria'>
                     <h1 className="h1_login">Login</h1>
 

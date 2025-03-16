@@ -1,44 +1,44 @@
 package com.tokenlab.desafio.dto;
 
-import java.time.Instant;
-
 public class EventoRequestDTO {
 
-	private Long id;
-	private Instant horaInicio;
-	private Instant horaTermino;
+	private Long idUsuario;
+	private String horaInicio;
+	private String horaTermino;
 	private String descricao;
+	private String nomeEvento;
 
 	
-	public EventoRequestDTO(Long id, Instant horaInicio, Instant horaTermino, String descricao) {
+	public EventoRequestDTO(Long idUsuario, String horaInicio, String horaTermino, String descricao, String nomeEvento) {
 		
-		this.id = id;
+		this.idUsuario = idUsuario;
 		this.horaInicio = horaInicio;
 		this.horaTermino = horaTermino;
 		this.descricao = descricao;
+		this.nomeEvento = nomeEvento;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getIdUsuario() {
+		return idUsuario;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
-	public Instant getHoraInicio() {
+	public String getHoraInicio() {
 		return horaInicio;
 	}
 
-	public void setHoraInicio(Instant horaInicio) {
+	public void setHoraInicio(String horaInicio) {
 		this.horaInicio = horaInicio;
 	}
 
-	public Instant getHoraTermino() {
+	public String getHoraTermino() {
 		return horaTermino;
 	}
 
-	public void setHoraTermino(Instant horaTermino) {
+	public void setHoraTermino(String horaTermino) {
 		this.horaTermino = horaTermino;
 	}
 
@@ -50,4 +50,11 @@ public class EventoRequestDTO {
 		this.descricao = descricao;
 	}
 
+	public String getNomeEvento() {
+		return nomeEvento;
+	}
+
+	public void setNomeEvento(String nomeEvento) {
+		this.nomeEvento = nomeEvento;
+	}
 }

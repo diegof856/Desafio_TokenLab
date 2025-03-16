@@ -14,7 +14,7 @@ export const useFetch = () => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: method === "POST" || method === "PATCH" ? JSON.stringify(requestData) : null
+            body: method === "POST" || method === "PATCH" || method === "DELETE" || method === "PUT" ? JSON.stringify(requestData) : null
         };
         try {
             const res = await fetch(url, options);

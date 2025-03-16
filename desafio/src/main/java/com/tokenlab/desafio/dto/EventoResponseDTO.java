@@ -1,8 +1,10 @@
 package com.tokenlab.desafio.dto;
 
-import java.time.Instant;
+import java.time.LocalTime;
 
-public record EventoResponseDTO(Long idEvento, Instant horaInicio, Instant horaTermino, String descricao, String nomeEvento) {
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+public record EventoResponseDTO(Long idEvento, @JsonFormat(pattern = "HH:mm")LocalTime horaInicio, @JsonFormat(pattern = "HH:mm")LocalTime horaTermino, String descricao, String nomeEvento) {
 
 
 }

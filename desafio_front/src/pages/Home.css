@@ -1,59 +1,86 @@
 :root {
-    --default-padding: 2em; 
-  }
-  
-  .container {
-    display: grid;
-    grid-template-columns: 18.25em 1fr; 
-    grid-template-rows: 66.5625em auto; 
-  }
-  
-  .mainNav {
-    grid-row: 1/-1;
-    grid-column: 1/2;
-    background-color: #159A9C;
-    padding-left: var(--default-padding);
-    padding-top: var(--default-padding);
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .h2_menu {
-    color: white;
-    font-size: 3em; 
-    margin: 0;
-    
-  }
-  
-  .menu {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .menu a {
-    text-decoration: none;
-    color: white;
-    display: block;
-    width: 100%;
-    padding: 2.5em 2.5em 2.5em 0; 
-    font-size: 1.5em; 
-  }
-  
-  .menu a:active {
-    background-color: #0ACFD2;
-  }
-  
-  .menus {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
-  }
-  
-  .sessaoPrincipal {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 10em; 
-  }
+  --default-padding: 2em;
+}
+
+.main {
+  margin: auto;
+
+}
+
+.container_Home {
+
+
+  max-width: 67.25em;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 18.25em 1fr;
+  height: 100vh;
+  background-color: #E9E7E7;
+
+
+}
+
+.mainNav {
+
+  background-color: #159A9C;
+  padding: 0;
+  padding-top: var(--default-padding);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.mainNav h2 {
+  padding-left: 0em;
+}
+
+.h2_menu {
+  color: white;
+  font-size: 3em;
+  margin: 0;
+
+
+}
+
+.menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.main-com-eventos {
+  padding: 1em;
+}
+
+.menu a {
+  text-decoration: none;
+  color: white;
+  display: block;
+  width: 100%;
+  padding: 2.5em 2.5em 2.5em 0;
+  font-size: 1.5em;
+  cursor: pointer;
+  user-select: none;
+}
+
+.btn_del_sair {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn_del_sair a {
+  padding: .30em;
+}
+
+.menu a:active {
+  background-color: #0ACFD2;
+}
+
+.menus {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+
+
+}

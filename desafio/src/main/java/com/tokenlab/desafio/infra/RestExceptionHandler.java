@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.tokenlab.desafio.exceptions.EmailJaCadastradoException;
 import com.tokenlab.desafio.exceptions.EventoNaoEncontradoException;
+import com.tokenlab.desafio.exceptions.InformacoesEventoVazias;
 import com.tokenlab.desafio.exceptions.SenhaIncorretaException;
 import com.tokenlab.desafio.exceptions.UsuarioNaoEncontradoException;
 
@@ -48,4 +49,13 @@ public class RestExceptionHandler {
 		
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
 	}
+	@ExceptionHandler(InformacoesEventoVazias.class)
+	private ResponseEntity<Object> eventoVazio(InformacoesEventoVazias exception){
+		Map<String, Object> body = new HashMap<>();
+		body.put("status", HttpStatus.FORBIDDEN.value());
+		body.put("mensagem", exception.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(body);
+	}
+	
 }

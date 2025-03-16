@@ -1,12 +1,10 @@
 package com.tokenlab.desafio.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,26 +13,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tokenlab.desafio.dto.EventoRequestDTO;
-import com.tokenlab.desafio.dto.EventoResponseDTO;
-import com.tokenlab.desafio.model.Evento;
 import com.tokenlab.desafio.service.EventoService;
 
 @RestController
+@CrossOrigin("http://localhost:5173/")
 @RequestMapping("/v1/eventos")
 public class EventoController {
 
 	@Autowired
 	private EventoService eventoService;
 
-	@PostMapping("/{id}")
-	public ResponseEntity<Void> adicionarEvento(@PathVariable Long id, @RequestBody Evento evento) {
-		eventoService.salvarEvento(id, evento);
+	@PostMapping
+	public ResponseEntity<Void> adicionarEvento(@RequestBody EventoRequestDTO eventoDTO) {
+		eventoService.salvarEvento(eventoDTO);
 		return new ResponseEntity<>(HttpStatus.CREATED);
-	}
-
-	@GetMapping
-	public ResponseEntity<Page<EventoResponseDTO>> listarEventos(Pageable pageable) {
-		 return ResponseEntity.ok(eventoService.listarEventos(pageable));
 	}
 
 	@PutMapping("{id}")

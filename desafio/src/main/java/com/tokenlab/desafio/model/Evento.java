@@ -1,7 +1,7 @@
 package com.tokenlab.desafio.model;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalTime;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,10 +26,10 @@ public class Evento implements Serializable {
 	private Long idEvento;
 
 	@NotNull
-	private Instant horaInicio;
+	private LocalTime horaInicio;
 
 	@NotNull
-	private Instant horaTermino;
+	private LocalTime horaTermino;
 
 	@NotNull
 	private String descricao;
@@ -44,7 +44,7 @@ public class Evento implements Serializable {
 
 	}
 
-	public Evento(Long idEvento, Instant horaInicio, Instant horaTermino, String descricao, String nomeEvento) {
+	public Evento(Long idEvento, LocalTime horaInicio, LocalTime horaTermino, String descricao, String nomeEvento) {
 		this.idEvento = idEvento;
 		this.horaInicio = horaInicio;
 		this.horaTermino = horaTermino;
@@ -60,19 +60,19 @@ public class Evento implements Serializable {
 		this.idEvento = idEvento;
 	}
 
-	public Instant getHoraInicio() {
+	public LocalTime getHoraInicio() {
 		return horaInicio;
 	}
 
-	public void setHoraInicio(Instant horaInicio) {
+	public void setHoraInicio(LocalTime horaInicio) {
 		this.horaInicio = horaInicio;
 	}
 
-	public Instant getHoraTermino() {
+	public LocalTime getHoraTermino() {
 		return horaTermino;
 	}
 
-	public void setHoraTermino(Instant horaTermino) {
+	public void setHoraTermino(LocalTime horaTermino) {
 		this.horaTermino = horaTermino;
 	}
 
